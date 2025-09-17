@@ -41,6 +41,27 @@ stages:
     jobs:  
       - job: UAT_Deploy
         steps:
+        - task: ServiceNow-DevOps-Agent-Package-Registration@1
+          inputs:
+            connectedServiceName: 'dev349899-tokuyatakahashi-devops-ServiceNow DevOps Service Connection'
+            packageName: 'Pipeline1Package'
+            artifactsPayload: |
+              {
+                  "artifacts": [
+                  {
+                      "name": "Pipeline1Package",
+                      "repositoryName": "Pipeline1Package-repo",
+                      "version": "1.$(build.buildId)",
+                      "pipelineName":"$(system.teamProject)/$(build.definitionName)",
+                      "taskExecutionNumber":"$(build.buildId)",
+                      "stageName":"$(system.jobDisplayName)",
+                      "branchName":"$(build.sourceBranchName)"
+                  }],
+                  "pipelineName":"$(system.teamProject)/$(build.definitionName)",
+                  "taskExecutionNumber":"$(build.buildId)",
+                  "stageName":"$(system.jobDisplayName)",
+                  "branchName":"$(build.sourceBranchName)"
+              }
         - script: echo "UAT Deploy"
       - job: Production_Deploy
         steps:
