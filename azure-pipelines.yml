@@ -14,6 +14,20 @@ stages:
     jobs: 
     - job: Build
       steps:
+      - task: ServiceNow-DevOps-Agent-Artifact-Registration@1
+        inputs:
+          connectedServiceName: 'dev349899-tokuyatakahashi-devops-ServiceNow DevOps Service Connection'
+          artifactsPayload: |
+            {
+              "artifacts": [
+                  {
+                    "name": "Pipeline1Artifact",
+                    "version": "1.$(Build.BuildId)",
+                    "semanticVersion": "1.$(Build.BuildId).0",
+                    "repositoryName": "Pipeline1Artifact-Repo"
+                  }
+              ]
+            }
       - script: echo "Build"
   - stage: Test
     jobs:
