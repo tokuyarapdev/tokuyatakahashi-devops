@@ -56,11 +56,7 @@ stages:
                       "taskExecutionNumber":"$(build.buildId)",
                       "stageName":"$(system.jobDisplayName)",
                       "branchName":"$(build.sourceBranchName)"
-                  }],
-                  "pipelineName":"$(system.teamProject)/$(build.definitionName)",
-                  "taskExecutionNumber":"$(build.buildId)",
-                  "stageName":"$(system.jobDisplayName)",
-                  "branchName":"$(build.sourceBranchName)"
+                  }]
               }
         - script: echo "UAT Deploy"
       - job: Production_Deploy
