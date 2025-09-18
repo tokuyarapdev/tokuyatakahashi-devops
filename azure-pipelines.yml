@@ -47,16 +47,20 @@ stages:
             packageName: 'Pipeline1Package'
             artifactsPayload: |
               {
-                  "artifacts": [
-                  {
-                      "name": "Pipeline1Package",
-                      "repositoryName": "Pipeline1Package-repo",
-                      "version": "1.$(build.buildId)",
-                      "pipelineName":"$(system.teamProject)/$(build.definitionName)",
-                      "taskExecutionNumber":"$(build.buildId)",
-                      "stageName":"$(system.jobDisplayName)",
-                      "branchName":"$(build.sourceBranchName)"
-                  }]
+                "artifacts": [
+                {
+                    "name": "Pipeline1Artifact",
+                    "repositoryName": "Pipeline1Artifact-Repo",
+                    "version": "1.$(build.buildId)",
+                    "pipelineName":"$(system.teamProject)/$(build.definitionName)",
+                    "taskExecutionNumber":"$(build.buildId)",
+                    "stageName":"$(system.jobDisplayName)",
+                    "branchName":"$(build.sourceBranchName)"
+                }],
+                "pipelineName":"$(system.teamProject)/$(build.definitionName)",
+                "taskExecutionNumber":"$(build.buildId)",
+                "stageName":"$(system.jobDisplayName)",
+                "branchName":"$(build.sourceBranchName)"
               }
         - script: echo "UAT Deploy"
       - job: Production_Deploy
