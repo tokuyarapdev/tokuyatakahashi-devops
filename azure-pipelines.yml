@@ -54,42 +54,7 @@ stages:
             NOW=$(date +"%Y-%m-%dT%TZ")
             cred=${SN_DEVOPS_USERNAME}:$SN_DEVOPS_PW
             endpoint=`https://dev349899.service-now.com/api/sn_devops/v1/devops/tool/softwarequality?toolId=$(checkmarxToolId)`
-            checkmarxPayload='{
-              "scanID": "SCAN001",
-              "scannerName": "Checkmarx",
-              "projectName": "app-devops",
-              "initiatedBy": "jon@rapdev.io",
-              "lastScanned": "2022-03-02T06:48:41Z",
-              "scanURL": "https://abc.com",
-              "shortDescription": "test scan",
-              "softwareQualityDetail": [
-                {
-                  "category": "vulnerabilities",
-                  "value": "20",
-                  "categoryDetail": [
-                    {
-                      "subcategory": "critical",
-                      "value": "2"
-                    }
-                  ]
-                },
-                {
-                  "category": "license_risks",
-                  "result": "PASS",
-                  "expected": "<5",
-                  "actual": "3"
-                },
-                {
-                  "bugs":"3"
-                }
-              ],
-              "artifacts": [
-                {
-                  "name": "CorpSite-artifact",
-                  "version": "1.0.0"
-                }
-              ]
-            }'
+            checkmarxPayload='{"scanID": $(Build.BuildId),"scannerName": "Checkmarx","projectName": "app-devops","initiatedBy": "tester@rapdev.io","lastScanned": $NOW,"scanURL": "https://abc.com","shortDescription": "test scan","softwareQualityDetail":[{"category": "vulnerabilities","value": "20","categoryDetail": [{"subcategory": "critical","value": "2"}]},{"category": "license_risks","result": "PASS","expected": "<5","actual": "3"},{"bugs":"3"}],"artifacts": [{"name": "Pipeline1Artifact","version":"1.$(Build.BuildId)"}]}'
             echo $checmarxPayload
             curl -X POST $endpoint -H 'Content-Type: application/json' -u $cred -d $checkmarxPayload
       - script: echo "Checkmarx_Scan"  
