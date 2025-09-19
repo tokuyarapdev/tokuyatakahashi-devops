@@ -33,6 +33,16 @@ stages:
     jobs:
     - job: Unit_Tests 
       steps:
+      - task: CmdLine@2
+        env:
+          SN_DEVOPS_PW: $(SN_DEVOPS_PW)
+        inputs:
+          script: |
+            NOW=$(date +"%Y-%m-%dT%TZ")
+            cred=${SN_DEVOPS_USERNAME}:$SN_DEVOPS_PW
+            testPayload='{"name":"Test-summary-1.$(Build.BuildId).0","duration":0.0,"passedTests":10,"failedTests":1,"skippedTests":0,"blockedTests":0,"totalTests":11,"startTime":"'$NOW'","finishTime":"'$NOW'","artifacts":[{"name":"Pipeline1Artifact","version":"1.$(Build.BuildId)"}]}'
+            echo $testPayload
+            curl -X POST 'https://dev349899.service-now.com/api/sn_devops/v1/devops/tool/test?toolId=30d9037d83083210029cad20ceaad334&testType=junit' -H 'Content-Type: application/json' -u $cred -d $testPayload
       - script: echo "Unit Tests"
     - job: Checkmarx_Scan 
       steps:
