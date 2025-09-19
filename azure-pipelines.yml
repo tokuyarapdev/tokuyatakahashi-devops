@@ -53,7 +53,7 @@ stages:
           script: |
             NOW=$(date +"%Y-%m-%dT%TZ")
             cred=${SN_DEVOPS_USERNAME}:$SN_DEVOPS_PW
-            endpoint=`https://dev349899.service-now.com/api/sn_devops/v1/devops/tool/softwarequality?toolId=${checkmarxToolId}`
+            endpoint=`https://dev349899.service-now.com/api/sn_devops/v1/devops/tool/softwarequality?toolId=$(checkmarxToolId)`
             checmarxPayload='{
             "scanID": $(Build.BuildId),
             "scannerName": "Checkmarx",
