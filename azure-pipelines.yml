@@ -74,7 +74,7 @@ stages:
                 { bugs:"3" }
               ],
               artifacts: [ { name:"Pipeline1Artifact", version: ("1." + $scanID) }]
-            }'| curl -X POST $endpoint -H 'Content-Type: application/json' -u $cred -d $checkmarxPayload
+            }'| curl -X POST $endpoint -H 'Content-Type: application/json' -u $cred -d @-
       - script: echo "Checkmarx_Scan"  
   - stage: Deploy
     jobs:  
