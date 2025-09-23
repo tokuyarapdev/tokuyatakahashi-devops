@@ -85,4 +85,21 @@ stages:
         - script: echo "UAT Deploy"
       - job: Production_Deploy
         steps:
-        - script: echo "Production Deploy"
+        - task: ServiceNow-DevOps-Server-Change-Acceleration@1
+          inputs:
+            connectedServiceName: 'dev349899-tokuyatakahashi-devops-ServiceNow DevOps Service Connection'
+            changeRequestDetails: |
+              {
+                "setCloseCode" : true,
+                "autoCloseChange" : true,
+                "attributes": {
+                    "requested_by": {
+                      "name": "DevOps Integration User"
+                      },
+                    "start_date": $(date +"%Y-%m-%dT%TZ"),
+                    "end_date": $(date +"%Y-%m-%dT%TZ"),
+                    "cmdb_ci": "53958ff0c0a801640171ec76aa0c8f86",
+                    "cmdb_ci_service": "281a4d5fc0a8000b00e4ba489a83eedc",
+                    "assignment_group": "287ee6fea9fe198100ada7950d0b1b73"
+                }
+              }
