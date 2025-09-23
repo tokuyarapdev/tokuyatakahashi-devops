@@ -89,14 +89,14 @@ stages:
         - task: ServiceNow-DevOps-Server-Change-Acceleration@1
           inputs:
             connectedServiceName: 'dev349899-tokuyatakahashi-devops-ServiceNow DevOps Service Connection'
-            changeRequestDetails: |
-              {
-                "autoCloseChange" : true,
-                "attributes": {
-                    "requested_by": {
-                      "user_name": "devops.integration.user"
-                    },
-                    "start_date": "2021-01-05 08:00:00",
-                    "end_date": "2021-01-08 08:00:00"
-                }
-              }
+            # changeRequestDetails: |
+            #   {
+            #     "autoCloseChange" : true,
+            #     "attributes": {
+            #         "requested_by": {
+            #           "user_name": "devops.integration.user"
+            #         },
+            #         "start_date": "2021-01-05 08:00:00",
+            #         "end_date": "2021-01-08 08:00:00"
+            #     }
+            #   }
