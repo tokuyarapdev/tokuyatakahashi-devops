@@ -84,6 +84,7 @@ stages:
               }
         - script: echo "UAT Deploy"
       - job: Production_Deploy
+        pool: server
         steps:
         - task: ServiceNow-DevOps-Server-Change-Acceleration@1
           inputs:
