@@ -95,12 +95,18 @@ stages:
                 "autoCloseChange" : true,
                 "attributes": {
                     "requested_by": {
-                      "name": "DevOps Integration User"
-                      },
+                      "user_name": "devops.integration.user"
+                    },
                     "start_date": $(date +"%Y-%m-%dT%TZ"),
                     "end_date": $(date +"%Y-%m-%dT%TZ"),
-                    "cmdb_ci": "53958ff0c0a801640171ec76aa0c8f86",
-                    "cmdb_ci_service": "281a4d5fc0a8000b00e4ba489a83eedc",
-                    "assignment_group": "287ee6fea9fe198100ada7950d0b1b73"
+                    "cmdb_ci": {
+                      "sys_id":"53958ff0c0a801640171ec76aa0c8f86"
+                    },
+                    "cmdb_ci_service": {
+                      "sys_id": 281a4d5fc0a8000b00e4ba489a83eedc"
+                    },
+                    "assignment_group": {
+                      "sys_id":"287ee6fea9fe198100ada7950d0b1b73"
+                    }
                 }
               }
