@@ -95,6 +95,6 @@ stages:
                       "user_name": "devops.integration.user"
                     },
                     "start_date": $date,
-                    "end_date": $date,
+                    "end_date": $date
                 }
               }
