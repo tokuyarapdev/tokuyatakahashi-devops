@@ -28,7 +28,6 @@ stages:
                   }
               ]
             }
-      - script: echo "Build"
   - stage: Test
     jobs:
     - job: Unit_Tests 
@@ -43,8 +42,8 @@ stages:
             testPayload='{"name":"Test-summary-1.$(Build.BuildId).0","duration":0.0,"passedTests":10,"failedTests":1,"skippedTests":0,"blockedTests":0,"totalTests":11,"startTime":"'$NOW'","finishTime":"'$NOW'","artifacts":[{"name":"Pipeline1Artifact","version":"1.$(Build.BuildId)"}]}'
             echo $testPayload
             curl -X POST 'https://dev349899.service-now.com/api/sn_devops/v1/devops/tool/test?toolId=30d9037d83083210029cad20ceaad334&testType=junit' -H 'Content-Type: application/json' -u $cred -d $testPayload
-      - script: echo "Unit Tests"
     - job: Checkmarx_Scan 
+      dependsOn: 'Unit_Tests'
       steps:
       - task: CmdLine@2
         env:
@@ -55,8 +54,7 @@ stages:
             cred=${SN_DEVOPS_USERNAME}:$SN_DEVOPS_PW
             checkmarxPayload='{"scanID":"$(Build.BuildId)","scannerName":"Checkmarx","projectName":"app-devops","initiatedBy":"tester@rapdev.io","lastScanned":"'$NOW'","scanURL":"https://abc.com","shortDescription":"testscan","softwareQualityDetail":[{"category":"vulnerabilities","value":"20","categoryDetail":[{"subcategory":"critical","value":"2"}]},{"category":"license_risks","result":"PASS","expected":"<5","actual":"3"},{"category":"bugs","value":"3","categoryDetail":[{"subcategory":"Impact","value":"Low"}]}],"artifacts":[{"name":"Pipeline1Artifact","version":"1.$(Build.BuildId)"}]}'
             echo $checkmarxPayload
-            curl -X POST 'https://dev349899.service-now.com/api/sn_devops/v1/devops/tool/softwarequality?toolId=$(checkmarxToolId)' -H 'Content-Type: application/json' -u $cred -d $checkmarxPayload
-      - script: echo "Checkmarx_Scan"  
+            curl -X POST 'https://dev349899.service-now.com/api/sn_devops/v1/devops/tool/softwarequality?toolId=$(checkmarxToolId)' -H 'Content-Type: application/json' -u $cred -d $checkmarxPayload 
   - stage: Deploy
     jobs:  
       - job: UAT_Deploy
@@ -84,6 +82,7 @@ stages:
               }
         - script: echo "UAT Deploy"
       - job: Production_Deploy
+        dependsOn: 'UAT_Deploy'
         pool: server
         steps:
         - task: ServiceNow-DevOps-Server-Change-Acceleration@1
@@ -91,12 +90,9 @@ stages:
             connectedServiceName: 'dev349899-tokuyatakahashi-devops-ServiceNow DevOps Service Connection'
             changeRequestDetails: |
               {
-                "autoCloseChange" : true,
                 "attributes": {
                     "requested_by": {
                       "user_name": "devops.integration.user"
                     },
-                    "start_date": "2021-01-05 08:00:00",
-                    "end_date": "2021-01-08 08:00:00"
                 }
               }
